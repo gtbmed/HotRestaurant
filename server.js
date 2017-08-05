@@ -17,20 +17,29 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // Basic route that sends the user first to the AJAX Page
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "home.html"));
+  res.sendFile(path.join(__dirname, "/frontend/home.html"));
 });
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "reserved.html"));
+app.get("/reserve", function(req, res) {
+  res.sendFile(path.join(__dirname, "/frontend/reserve.html"));
 });
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "tables.html"));
+app.get("/tables", function(req, res) {
+  res.sendFile(path.join(__dirname, "/frontend/tables.html"));
 });
+
+
+
+var tableData = require("./api/tables");
+var waitListData = require("./api/waitingList");
+
+app.get("/api/tables",function(req,res){
+	res.json(tableData);
+});
+
 
 app.listen(PORT, function() {
-  console.log("Listening at PORT" + PORT);
+  console.log("Listening at PORT " + PORT);
 });
-
 
 
