@@ -5,6 +5,10 @@
 	<title>Hot Restaurant</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
   	
 </head>
 <body>
@@ -49,12 +53,78 @@
 	
 		<div class="footer">
 			<div class="container">
-				<p><a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API Wait List</a></p>
+				<p><a href="/api/tables">API Table Link</a> | <a href="/api/waitinglist">API Wait List</a></p>
 			</div>
 		</div>
 	</div>			
 	
+<!-- Script for receiving data from APIs -->
+	<script type="text/javascript">
+	// Get Current Table List
+		function getTableData() {
+			//curent url
+			var currentURL = window.location.origin;
 
+			//AJAX call to API to GET current table data
+			$.ajax({
+				url: currentURL + "/api/tables",
+				method: "GET"
+			}).done(function(response) {
+				//for future use, if needed
+				console.log("-------------------");
+				console.log("URL: " + currentURL + "/api/tables");
+				console.log("-------------------");
 
+				console.log(response);
+
+				for (var i = 0; i < response.length; i++) {
+					//HTML to display results
+					var reserveTable = $("<div>");
+					reserveTable.addClass("well");
+					reserveTable.attr("id", "tableWell-" + i + 1);
+					$("#reserveTable").append(reserveTable);
+
+					var tableNumber = i + 1;
+
+					//display data
+					$("#tableWell-" + i + 1).append("<h2><span class='label label-primary'>" + tableNumber + "</span> | " + response[i].id + "</h2>");
+				}
+			});
+		};
+
+		function getWaitData() {
+			//curent url
+			var currentURL = window.location.origin;
+
+			//AJAX call to API to GET current table data
+			$.ajax({
+				url: currentURL + "/api/waitinglist",
+				method: "GET"
+			}).done(function(response) {
+				//for future use, if needed
+				console.log("-------------------");
+				console.log("URL: " + currentURL + "/api/waitinglist");
+				console.log("-------------------");
+
+				console.log(response);
+
+				for (var i = 0; i < response.length; i++) {
+					//HTML to display results
+					var waitListTable = $("<div>");
+					waitListTable.addClass("well");
+					waitListTable.attr("id", "waitWell-" + i + 1);
+					$("#waitListTable").append(waitListTable);
+
+					var tableNumber = i + 1;
+
+					//display data
+					$("#waitWell-" + i + 1).append("<h2><span class='label label-primary'>" + tableNumber + "</span> | " + response[i].id + "</h2>");
+				}
+			});
+		}
+
+		getTableData();
+		getWaitData();
+	</script>	
 </body>
 </html>
