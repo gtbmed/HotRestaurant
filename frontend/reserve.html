@@ -17,6 +17,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
+        <script src="tables.js"></script>
     </head>
 
     <body>
@@ -60,4 +61,32 @@
     </body>
 
     </html>
+
+    <script type="text/javascript">
+        $(".submit").on("click", function(event) {
+            event.preventDefault();
+
+            var newRezzy = {
+                customerName: $("#userName").val().trim(),
+                phoneNumber: $("#userPhoneNumber").val().trim(),
+                customerEmail: $("#userEmail").val().trim(),
+                customerID: $("#userID").val().trim(),
+            };
+
+            console.log(newRezzy);
+
+            $.post("/api/tables", newRezzy, function(data) {
+                if (data) {
+                    $('#rezModal').modal('handleUpdate');
+                } else {
+
+                }
+
+                $("#userName").val("");
+                $("#userPhoneNumber").val("");
+                $("#userEmail").val("");
+                $("#userID").val("");
+            })
+        })
+    </script>
 </DOCTYPE>
